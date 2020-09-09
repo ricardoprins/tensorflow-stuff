@@ -8,10 +8,15 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing import image
 
-train_horse_dir = os.path.join("coursera/datasets/horses")
-train_human_dir = os.path.join("coursera/datasets/humans")
+train_horse_dir = os.path.join("coursera/datasets/horses-or-humans/horses")
+train_human_dir = os.path.join("coursera/datasets/horses-or-humans/humans")
+valid_horse_dir = os.path.join("coursera/datasets/valid-horses-or-humans/horses")
+valid_human_dir = os.path.join("coursera/datasets/valid-horses-or-humans/humans")
+
 train_horse_names = os.listdir(train_horse_dir)
 train_human_names = os.listdir(train_human_dir)
+valid_horse_names = os.listdir(valid_horse_dir)
+valid_human_names = os.listdir(valid_human_dir)
 nrows = 4
 ncols = 4
 pic_index = 0
@@ -64,7 +69,24 @@ model.compile(
 )
 
 train_datagen = ImageDataGenerator(rescale=1 / 255)
+valid_datagen = ImageDataGenerator(rescale=1 / 255)
 train_generator = train_datagen.flow_from_directory(
-    "coursera/datasets", target_size=(300, 300), batch_size=128, class_mode="binary"
+    "coursera/datasets/horses-or-humans/",
+    target_size=(300, 300),
+    batch_size=128,
+    class_mode="binary",
 )
-history = model.fit(train_generator, steps_per_epoch=8, epochs=15, verbose=1)
+valid_generator = valid_datagen.flow_from_directory(
+    "coursera/datasets/valid-horses-or-humans/",
+    target_size=(300, 300),
+    batch_size=32,
+    class_mode="binary",
+)
+history = model.fit_generator(
+    train_generator,
+    steps_per_epoch=8,
+    epochs=15,
+    verbose=1,
+    validation_data=valid_generator,
+    validation_steps=8,
+)
