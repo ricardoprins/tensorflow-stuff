@@ -11,3 +11,5 @@
 2. [Week 2](vectorization.ipynb)
    [also Week 2](broadcasting.ipynb)
    [still Week 2](numpy-vectors.ipynb)
+
+# Convolutional Neural Networks in TensorFlow
