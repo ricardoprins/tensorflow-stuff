@@ -13,3 +13,5 @@
    [still Week 2](numpy-vectors.ipynb)
 
 # Convolutional Neural Networks in TensorFlow
+
+2. [Week 2](data-augmentation)
